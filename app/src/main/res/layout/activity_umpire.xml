@@ -8,24 +8,24 @@
 
     <TextView
         android:id="@+id/strike_text_view"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="24dp"/>
 
     <TextView
         android:id="@+id/ball_text_view"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="24dp"/>
 
     <Button
-        android:id="@+id/true_button"
+        android:id="@+id/strike_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/strike_button"/>
 
     <Button
-        android:id="@+id/false_button"
+        android:id="@+id/ball_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/ball_button"/>
