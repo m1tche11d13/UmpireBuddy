@@ -1,5 +1,6 @@
 package com.bignerdranch.android.umpirebuddy;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -78,6 +79,8 @@ public class UmpireActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     @Override
@@ -97,7 +100,8 @@ public class UmpireActivity extends AppCompatActivity {
                 updateCount('_');
                 return true;
             case R.id.about:
-                //showHelp();
+                Intent i = new Intent(UmpireActivity.this, AboutActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
