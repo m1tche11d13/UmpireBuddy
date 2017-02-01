@@ -2,6 +2,7 @@ package com.bignerdranch.android.umpirebuddy;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +15,11 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.Locale;
+
 public class UmpireActivity extends AppCompatActivity {
+
+    TextToSpeech tts;
 
     private static final String PREFS = "preferences";
     private static final String OUT_KEY = "out_key";
@@ -46,19 +51,22 @@ public class UmpireActivity extends AppCompatActivity {
     private void updateCount(Character c){
         if(c == 'b'){
             ++mBallCount;
-            if(mBallCount == 4){
+            if(mBallCount == 4){    //Batter walks
                 mBallCount = 0;
                 mStrikeCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.walk_toast, Toast.LENGTH_SHORT).show();
+                tts.speak("Walk", TextToSpeech.QUEUE_FLUSH, null);
             }
         }
         if(c == 's'){
             ++mStrikeCount;
-            if(mStrikeCount == 3){
+
+            if(mStrikeCount == 3){  //Batter strikes out
                 ++mOutCount;
                 mStrikeCount = 0;
                 mBallCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.out_toast, Toast.LENGTH_SHORT).show();
+                tts.speak("Strikeout", TextToSpeech.QUEUE_FLUSH, null);
             }
         }
         mStrikeString = "Strike: " + mStrikeCount;
@@ -86,6 +94,15 @@ public class UmpireActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_umpire);
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    tts.setLanguage(Locale.US);
+                }
+            }
+        });
 
         mBallTextView = (TextView) findViewById(R.id.ball_text_view);
         mStrikeTextView = (TextView) findViewById(R.id.strike_text_view);
