@@ -21,6 +21,9 @@ public class UmpireActivity extends AppCompatActivity {
 
     TextToSpeech tts;
 
+    static final int SETTINGS_REQUEST = 1;
+
+    private static final String CALLS_KEY = "calls_key";
     private static final String PREFS = "preferences";
     private static final String OUT_KEY = "out_key";
     private static final String STRIKE_KEY = "strike_key";
@@ -29,6 +32,8 @@ public class UmpireActivity extends AppCompatActivity {
     private static int mBallCount = 0;
     private static int mStrikeCount = 0;
     private static int mOutCount = 0;
+
+    private static boolean mCallsEnabled;
 
     private Button mBallButton;
     private Button mStrikeButton;
@@ -55,7 +60,9 @@ public class UmpireActivity extends AppCompatActivity {
                 mBallCount = 0;
                 mStrikeCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.walk_toast, Toast.LENGTH_SHORT).show();
-                tts.speak("Walk", TextToSpeech.QUEUE_FLUSH, null);
+                if(mCallsEnabled){
+                    tts.speak("Walk", TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
         }
         if(c == 's'){
@@ -66,7 +73,9 @@ public class UmpireActivity extends AppCompatActivity {
                 mStrikeCount = 0;
                 mBallCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.out_toast, Toast.LENGTH_SHORT).show();
-                tts.speak("Strikeout", TextToSpeech.QUEUE_FLUSH, null);
+                if(mCallsEnabled){
+                    tts.speak("Strikeout", TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
         }
         mStrikeString = "Strike: " + mStrikeCount;
@@ -134,8 +143,9 @@ public class UmpireActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(PREFS, 0);
         mOutCount = prefs.getInt(OUT_KEY, 0);
+        mCallsEnabled = prefs.getBoolean(CALLS_KEY, false);
 
-        //Updates the count with a meaningless character to set both to 0 initially
+        //Updates the count with a meaningless character to set all to 0 initially
         updateCount('_');
     }
 
@@ -157,16 +167,29 @@ public class UmpireActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent i;
         switch (item.getItemId()) {
             case R.id.reset:
                 resetCount();
                 return true;
             case R.id.about:
-                Intent i = new Intent(UmpireActivity.this, AboutActivity.class);
+                i = new Intent(UmpireActivity.this, AboutActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.settings:
+                i = new Intent(UmpireActivity.this, SettingsActivity.class);
+                startActivityForResult(i, SETTINGS_REQUEST);
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SETTINGS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                mCallsEnabled = data.getBooleanExtra(CALLS_KEY, false);
+            }
         }
     }
 }
