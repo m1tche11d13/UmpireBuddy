@@ -9,4 +9,7 @@
 
     <string name="out_toast">Out!</string>
     <string name="walk_toast">Walk!</string>
+
+    <string name="about">About</string>
+    <string name="reset">Reset</string>
 </resources>

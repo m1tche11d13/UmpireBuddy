@@ -2,6 +2,9 @@ package com.bignerdranch.android.umpirebuddy;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,8 +34,8 @@ public class UmpireActivity extends AppCompatActivity {
                 mStrikeCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.walk_toast, Toast.LENGTH_SHORT).show();
             }
-            mStrikeString = "Strike: " + mStrikeCount;
-            mBallString = "Ball: " + mBallCount;
+            //mStrikeString = "Strike: " + mStrikeCount;
+            //mBallString = "Ball: " + mBallCount;
         }
         if(c == 's'){
             ++mStrikeCount;
@@ -41,9 +44,12 @@ public class UmpireActivity extends AppCompatActivity {
                 mBallCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.out_toast, Toast.LENGTH_SHORT).show();
             }
-            mStrikeString = "Strike: " + mStrikeCount;
-            mBallString = "Ball: " + mBallCount;
+            //mStrikeString = "Strike: " + mStrikeCount;
+            //mBallString = "Ball: " + mBallCount;
         }
+        mStrikeString = "Strike: " + mStrikeCount;
+        mBallString = "Ball: " + mBallCount;
+
         mBallTextView.setText(mBallString);
         mStrikeTextView.setText(mStrikeString);
     }
@@ -76,5 +82,29 @@ public class UmpireActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.reset:
+                mBallCount = 0;
+                mStrikeCount = 0;
+                updateCount('_');
+                return true;
+            case R.id.about:
+                //showHelp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
