@@ -12,4 +12,6 @@
 
     <string name="about">About</string>
     <string name="reset">Reset</string>
+
+    <string name="about_display">Umpire Buddy rev 2 by Daniel Mitchell.</string>
 </resources>

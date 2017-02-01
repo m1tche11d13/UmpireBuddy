@@ -34,8 +34,6 @@ public class UmpireActivity extends AppCompatActivity {
                 mStrikeCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.walk_toast, Toast.LENGTH_SHORT).show();
             }
-            //mStrikeString = "Strike: " + mStrikeCount;
-            //mBallString = "Ball: " + mBallCount;
         }
         if(c == 's'){
             ++mStrikeCount;
@@ -44,8 +42,6 @@ public class UmpireActivity extends AppCompatActivity {
                 mBallCount = 0;
                 Toast.makeText(UmpireActivity.this, R.string.out_toast, Toast.LENGTH_SHORT).show();
             }
-            //mStrikeString = "Strike: " + mStrikeCount;
-            //mBallString = "Ball: " + mBallCount;
         }
         mStrikeString = "Strike: " + mStrikeCount;
         mBallString = "Ball: " + mBallCount;
