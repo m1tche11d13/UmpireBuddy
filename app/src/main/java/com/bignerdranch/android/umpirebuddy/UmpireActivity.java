@@ -18,6 +18,8 @@ public class UmpireActivity extends AppCompatActivity {
 
     private static final String PREFS = "preferences";
     private static final String OUT_KEY = "out_key";
+    private static final String STRIKE_KEY = "strike_key";
+    private static final String BALL_KEY = "ball_key";
 
     private static int mBallCount = 0;
     private static int mStrikeCount = 0;
@@ -72,10 +74,11 @@ public class UmpireActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
+        //Saves the out count into a preferences file when the onPause function is called
         SharedPreferences prefs = getSharedPreferences(PREFS, 0);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(OUT_KEY, mOutCount);
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -108,11 +111,12 @@ public class UmpireActivity extends AppCompatActivity {
 
         if(savedInstanceState != null){
             mOutCount = savedInstanceState.getInt(OUT_KEY);
+            mBallCount = savedInstanceState.getInt(BALL_KEY);
+            mStrikeCount = savedInstanceState.getInt(STRIKE_KEY);
         }
 
         SharedPreferences prefs = getSharedPreferences(PREFS, 0);
         mOutCount = prefs.getInt(OUT_KEY, 0);
-
 
         //Updates the count with a meaningless character to set both to 0 initially
         updateCount('_');
@@ -122,6 +126,8 @@ public class UmpireActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(OUT_KEY, mOutCount);
+        savedInstanceState.putInt(BALL_KEY, mBallCount);
+        savedInstanceState.putInt(STRIKE_KEY, mStrikeCount);
     }
 
     @Override
