@@ -6,9 +6,11 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,6 +119,9 @@ public class UmpireActivity extends AppCompatActivity {
         mStrikeTextView = (TextView) findViewById(R.id.strike_text_view);
         mOutTextView = (TextView) findViewById(R.id.out_text_view);
 
+        registerForContextMenu(mBallTextView);
+        registerForContextMenu(mStrikeTextView);
+
         mBallButton = (Button) findViewById(R.id.ball_button);
         mBallButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +167,43 @@ public class UmpireActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        if(v.getId() == R.id.ball_text_view){
+            inflater.inflate(R.menu.ball_context_menu, menu);
+        }
+        else{
+            inflater.inflate(R.menu.strike_context_menu, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.strike_increment:
+                updateCount('s');
+                return true;
+            case R.id.ball_increment:
+                updateCount('b');
+                return true;
+            case R.id.strike_decrement:
+                --mStrikeCount;
+                if(mStrikeCount < 0) mStrikeCount = 0;
+                updateCount('_');
+                return true;
+            case R.id.ball_decrement:
+                --mBallCount;
+                if(mBallCount < 0)mBallCount = 0;
+                updateCount('_');
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     @Override

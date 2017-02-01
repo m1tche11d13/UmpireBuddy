@@ -16,4 +16,7 @@
     <string name="about_display">Umpire Buddy rev 2 by Daniel Mitchell.</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_options">OptionsActivity</string>
+
+    <string name="increment">Increment</string>
+    <string name="decrement">Decrement</string>
 </resources>
